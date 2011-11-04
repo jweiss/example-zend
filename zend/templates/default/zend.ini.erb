@@ -1,0 +1,110 @@
+[production]
+phpSettings.display_startup_errors = 0
+phpSettings.display_errors = 0
+includePaths.library = APPLICATION_PATH "/../library"
+bootstrap.path = APPLICATION_PATH "/Bootstrap.php"
+bootstrap.class = "Bootstrap"
+appnamespace = "Api"
+autoloaderNamespaces[] = "Api"
+resources.modules = ""
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; CACHE MANAGER SETUP
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; cache for database
+resources.cachemanager.database.frontend.name = Core
+resources.cachemanager.database.frontend.customFrontendNaming = false
+resources.cachemanager.database.frontend.options.automatic_serialization = true
+resources.cachemanager.database.backend.name = File
+resources.cachemanager.database.backend.customBackendNaming = false
+resources.cachemanager.database.backend.options.cache_dir = APPLICATION_PATH "/../cache"
+
+; cache for verifiers
+resources.cachemanager.verifier.frontend.name = Core
+resources.cachemanager.verifier.frontend.customFrontendNaming = false
+resources.cachemanager.verifier.frontend.options.automatic_serialization = true
+resources.cachemanager.verifier.backend.name = File
+resources.cachemanager.verifier.backend.customBackendNaming = false
+resources.cachemanager.verifier.backend.options.cache_dir = APPLICATION_PATH "/../cache"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; FRONT CONTROLLER
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
+resources.frontController.params.displayExceptions = 0
+resources.frontController.moduleDirectory = APPLICATION_PATH "/modules"
+resources.frontController.moduleControllerDirectoryName = "controllers"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; DATABASE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+resources.db.adapter = "Pdo_Mysql"
+resources.db.params.host = "<%= @database[:host] %>"
+resources.db.params.dbname = "api"
+resources.db.params.username = "<%= @database[:username] %>"
+resources.db.params.password = "<%= @database[:password] %>"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; E-MAIL SETTINGS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+resources.mail.defaultFrom.email = XXXX
+resources.mail.defaultFrom.name = "XXXX"
+resources.mail.defaultReplyTo.email = XXXX
+resources.mail.defaultReplyTo.name = "XXX"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LOGGING
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+resources.log.error.writerName = "Stream"
+resources.log.error.writerParams.stream = APPLICATION_PATH "/../logs/error.log"
+resources.log.error.writerParams.mode = "a"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; VIEWS AND LAYOUTS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+resources.view[] =
+resources.layout.layoutPath = APPLICATION_PATH "/layouts/scripts/"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; AUTHENTICATION
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+auth.timeout = 3600
+
+[cloud : production]
+resources.log.error.writerParams.stream = APPLICATION_TMP "/error.log"
+
+resources.db.params.host = "<%= @database[:host] %>"
+resources.db.params.dbname = "api"
+resources.db.params.username = "<%= @database[:username] %>"
+resources.db.params.password = "<%= @database[:password] %>"
+
+resources.cachemanager.database.backend.options.cache_dir = APPLICATION_TMP
+resources.cachemanager.verifier.backend.options.cache_dir = APPLICATION_TMP
+
+[testing : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+
+; turn off all caching for unit testing
+resources.cachemanager.database.frontend.options.caching = false
+resources.cachemanager.verifier.frontend.options.caching = false
+
+; setup the testing database
+resources.db.params.dbname = "api_testing"
+resources.db.params.dbname = "api"
+resources.db.params.username = "<%= @database[:username] %>"
+resources.db.params.password = "<%= @database[:password] %>"
+
+[development : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+resources.frontController.params.displayExceptions = 1
+
+resources.cachemanager.database.frontend.options.caching = false
+;resources.cachemanager.verifier.frontend.options.caching = false
+
+resources.db.params.dbname = "api"
+resources.db.params.host = "localhost"
+resources.db.params.username = "root"
+resources.db.params.password = "XXXXX"
